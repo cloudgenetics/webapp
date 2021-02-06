@@ -1,55 +1,48 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
+    <v-app-bar app color="primary" dark>
+      <div></div>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title class="d-flex align-center">
         <v-img
-          alt="cloudgenetics logo"
+          alt="Logo"
           class="shrink mr-2"
           contain
           src="./assets/logo.png"
           transition="scale-transition"
-          width="40"
-        />
-        cloudgenetics
-      </div>
-
+          width="30"
+        />{{ details.title }}
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <Main />
     </v-main>
-    <v-footer app>
-      <span>© 2020 cloudgenetics</span>
+
+    <v-footer color="primary" dark app>
+      <span class="white--text"
+        >&copy; {{ new Date().getFullYear() }} {{ details.title }}</span
+      >
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import Main from "./components/Main";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
+    Main,
   },
-
   data: () => ({
-    //
+    details: {
+      title: process.env.VUE_APP_TITLE,
+      url: process.env.VUE_APP_URL,
+    },
   }),
+  methods: {},
 };
 </script>
