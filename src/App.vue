@@ -22,15 +22,12 @@
       </v-container>
     </v-content>
 
-    <v-footer color="primary" dark app>
-      <span class="white--text"
-        >&copy; {{ new Date().getFullYear() }} {{ details.title }}</span
-      >
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
 <script>
+import Footer from "@/components/Footer.vue";
 export default {
   name: "App",
 
@@ -40,6 +37,9 @@ export default {
       url: process.env.VUE_APP_URL,
     },
   }),
+  components: {
+    Footer,
+  },
   methods: {},
 };
 </script>
