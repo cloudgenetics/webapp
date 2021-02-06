@@ -1,4 +1,5 @@
-# webapp
+# CloudGenetics webapp
+
 
 ## Project setup
 ```
@@ -20,5 +21,6 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Customize environment variables
+
+Edit `.env` file to update the app title and url.

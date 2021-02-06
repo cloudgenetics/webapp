@@ -9,7 +9,7 @@
           height="200"
         />
         <v-row justify="center">
-          {{ details.title }}
+          {{ env.title }}
         </v-row>
       </v-col>
     </v-row>
@@ -21,7 +21,7 @@ export default {
   name: "Main",
 
   data: () => ({
-    details: {
+    env: {
       title: process.env.VUE_APP_TITLE,
       url: process.env.VUE_APP_URL,
     },
