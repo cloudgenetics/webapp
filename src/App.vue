@@ -16,9 +16,11 @@
       <v-spacer></v-spacer>
     </v-app-bar>
 
-    <v-main>
-      <Main />
-    </v-main>
+    <v-content>
+      <v-container fluid>
+        <router-view />
+      </v-container>
+    </v-content>
 
     <v-footer color="primary" dark app>
       <span class="white--text"
@@ -29,14 +31,9 @@
 </template>
 
 <script>
-import Main from "./components/Main";
-
 export default {
   name: "App",
 
-  components: {
-    Main,
-  },
   data: () => ({
     details: {
       title: process.env.VUE_APP_TITLE,
