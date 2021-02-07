@@ -18,14 +18,14 @@ describe('App.vue', () => {
   it('should have company name', () => {
     const wrapper = mount(App, {
       localVue,
-      vuetify,
+      vuetify
     })
 
     // With jest we can create snapshot files of the HTML output
     //expect(wrapper.html()).toMatchSnapshot()
     // Check the text content
     const company = wrapper.find('.v-toolbar__title')
-    const company_name = process.env.VUE_APP_TITLE ;
+    const company_name = process.env.VUE_APP_TITLE
     expect(company.text()).toBe(company_name)
   })
 })
