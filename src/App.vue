@@ -11,7 +11,8 @@
           src="./assets/logo.png"
           transition="scale-transition"
           width="30"
-        />{{ details.title }}
+        />
+        {{ details.title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -34,12 +35,12 @@ export default {
   data: () => ({
     details: {
       title: process.env.VUE_APP_TITLE,
-      url: process.env.VUE_APP_URL,
-    },
+      url: process.env.VUE_APP_URL
+    }
   }),
   components: {
-    Footer,
+    Footer
   },
-  methods: {},
+  methods: {}
 };
 </script>
