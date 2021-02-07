@@ -19,8 +19,7 @@ jobs:
       - run: 
           name: Install dependencies and build
           command: |
-            yarn install
-            yarn build
+            yarn install && yarn build
       - persist_to_workspace:
           root: .
           paths: dist
