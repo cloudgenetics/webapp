@@ -1,5 +1,7 @@
 # CloudGenetics webapp
 
+[![CircleCI](https://circleci.com/gh/cloudgenetics/webapp.svg?style=svg)](https://circleci.com/gh/cloudgenetics/webapp)
+
 
 ## Project setup
 ```
