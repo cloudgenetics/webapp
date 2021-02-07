@@ -17,9 +17,9 @@ jobs:
           paths:
             - ./node_modules
       - run: 
-          name: Install dependencies and build
+          name: Yarn build
           command: |
-            yarn install && yarn build
+            yarn build
       - persist_to_workspace:
           root: .
           paths: dist
