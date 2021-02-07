@@ -23,6 +23,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: dist
+          
   lint-test:
     docker:
       - image: circleci/node:lts
@@ -43,7 +44,7 @@ jobs:
           name: Lint & unit test
           command: |
             yarn lint
-            yarn unit:test
+            yarn test:unit
       - persist_to_workspace:
           root: .
           paths: dist
