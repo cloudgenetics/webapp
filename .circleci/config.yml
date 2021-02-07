@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+    parallelism: 1
+    working_directory: ~/cloudgenetics/webapp
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/cloudgenetics/webapp
+      - restore_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - save_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run: 
+          name: Install dependencies and build
+          command: |
+            yarn install
+            yarn build
+      - persist_to_workspace:
+          root: .
+          paths: dist
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
