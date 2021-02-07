@@ -2,12 +2,12 @@
 import Vuetify from 'vuetify'
 
 // Components
-import Footer from '@/components/Footer'
+import Main from '@/components/Main'
 
 // Utilities
 import { createLocalVue, mount } from '@vue/test-utils'
 
-describe('Footer.vue', () => {
+describe('Main.vue', () => {
   const localVue = createLocalVue()
   let vuetify
 
@@ -15,8 +15,8 @@ describe('Footer.vue', () => {
     vuetify = new Vuetify()
   })
 
-  it('should have copyright info', () => {
-    const wrapper = mount(Footer, {
+  it('should have company name', () => {
+    const wrapper = mount(Main, {
       localVue,
       vuetify,
     })
@@ -26,8 +26,8 @@ describe('Footer.vue', () => {
 
     // We could also verify this differently
     // by checking the text content
-    const title = wrapper.find('.v-footer > span')
-    const copyright_info = '\u00A9 ' + new Date().getFullYear() + ' ' + process.env.VUE_APP_TITLE ;
-    expect(title.text()).toBe(copyright_info)
+    const company = wrapper.find('.companyname')
+    const company_name = process.env.VUE_APP_TITLE ;
+    expect(company.text()).toBe(company_name)
   })
 })
