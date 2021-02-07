@@ -31,3 +31,6 @@ coverage/*
 
 # Unit test snapshots
 **/__snapshots__/*
+
+# Merge conflicts
+**.orig*
