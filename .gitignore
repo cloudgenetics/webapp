@@ -25,3 +25,9 @@ pnpm-debug.log*
 # Temporary files
 *~*
 *#*
+
+# Code coverage
+coverage/*
+
+# Unit test snapshots
+**/__snapshots__/*
