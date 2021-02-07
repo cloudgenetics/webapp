@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  yarnbuild:
+  build:
     docker:
       - image: circleci/node:lts
     parallelism: 1
@@ -23,9 +23,35 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: dist
+  lint-test:
+    docker:
+      - image: circleci/node:lts
+    parallelism: 1
+    working_directory: ~/cloudgenetics/webapp
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/cloudgenetics/webapp
+      - restore_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - save_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run: 
+          name: Lint & unit test
+          command: |
+            yarn lint
+            yarn unit:test
+      - persist_to_workspace:
+          root: .
+          paths: dist
+
 
 workflows:
   version: 2
   build:
     jobs:
-      - yarnbuild
+      - build
+      - lint-test
