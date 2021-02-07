@@ -45,10 +45,6 @@ jobs:
           command: |
             yarn lint
             yarn test:unit
-      - persist_to_workspace:
-          root: .
-          paths: dist
-
 
 workflows:
   version: 2
