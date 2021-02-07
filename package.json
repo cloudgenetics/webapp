@@ -63,9 +63,16 @@
     "not dead"
   ],
   "jest": {
-    "preset": "@vue/cli-plugin-unit-jest",   
+    "preset": "@vue/cli-plugin-unit-jest",
     "collectCoverage": true,
-    "collectCoverageFrom": ["**/*.{js,vue}", "!**/node_modules/**"],    
+    "collectCoverageFrom": [
+      "**/*.{js,vue}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!babel.config.js",
+      "!vetur.config.js",
+      "!vue.config.js"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
