@@ -34,3 +34,5 @@ yarn lint
 ### Customize environment variables
 
 Edit `.env` file to update the app title and url.
+
+To edit the theme modify `plugins/vuetify.js`.

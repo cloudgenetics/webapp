@@ -71,7 +71,8 @@
       "!**/coverage/**",
       "!babel.config.js",
       "!vetur.config.js",
-      "!vue.config.js"
+      "!vue.config.js",
+      "!**/plugins/vuetify.js"
     ],
     "moduleFileExtensions": [
       "js",
