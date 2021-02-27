@@ -2,12 +2,12 @@
 import Vuetify from 'vuetify'
 
 // Components
-import Header from '@/components/Header'
+import AppBar from '@/components/AppBar'
 
 // Utilities
 import { createLocalVue, mount } from '@vue/test-utils'
 
-describe('Header.vue', () => {
+describe('AppBar.vue', () => {
   const localVue = createLocalVue()
   let vuetify
 
@@ -16,7 +16,7 @@ describe('Header.vue', () => {
   })
 
   it('should have company name', () => {
-    const wrapper = mount(Header, {
+    const wrapper = mount(AppBar, {
       localVue,
       vuetify,
     })
