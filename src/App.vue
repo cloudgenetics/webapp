@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppBar />
+    <AppBar :appbarDrawer.sync="drawer" />
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list>
         <v-list-item v-for="[icon, text] in links" :key="icon" link>

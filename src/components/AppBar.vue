@@ -1,6 +1,5 @@
 <template>
   <v-app-bar app color="primary" dark clipped-left>
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title class="d-flex align-center">
       <v-img
         alt="Logo"
@@ -19,7 +18,6 @@
 <script>
 export default {
   name: "Header",
-
   data: () => ({
     env: {
       title: process.env.VUE_APP_TITLE
