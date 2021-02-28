@@ -14,12 +14,13 @@
         {{ env.title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <AuthenticationButton />
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list>
-        <v-list-item v-for="[icon, text] in links" :key="icon" link>
+        <v-list-item v-for="[icon, text, link] in links" :key="icon" link>
           <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
+            <v-icon :router="link">{{ icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+import AuthenticationButton from "@/components/AuthenticationButton";
 import Footer from "@/components/Footer.vue";
 export default {
   name: "App",
@@ -50,12 +52,14 @@ export default {
     },
     drawer: null,
     links: [
-      ["mdi-database", "Data"],
-      ["mdi-microscope", "Analysis"],
-      ["mdi-folder-multiple", "Project"]
+      ["mdi-database", "Data", "/about"],
+      ["mdi-microscope", "Analysis", "/analysis"],
+      ["mdi-folder-multiple", "Project", "/projects"],
+      ["mdi-account", "Account", "/account"]
     ]
   }),
   components: {
+    AuthenticationButton,
     Footer
   },
   methods: {}

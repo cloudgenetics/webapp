@@ -1,5 +1,6 @@
 {
   "domain": "kks32.us.auth0.com",
-  "clientId": "5DtiTEV0juj2VxGMVsyzERHbJ4TTNuMl",
-  "audience": "https://localhost:4000"
+  "clientId": "30wvMJ3q1F1BvmmBCHyUb6as18LLsE52",
+  "audience": "",
+  "serverUrl": ""
 }
