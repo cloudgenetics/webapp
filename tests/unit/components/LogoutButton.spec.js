@@ -1,5 +1,6 @@
 // Libraries
 import Vuetify from 'vuetify'
+import router from '../../src/router'
 
 // Components
 import LogoutButton from '@/components/LogoutButton'
