@@ -18,13 +18,17 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list>
-        <v-list-item v-for="[icon, text, link] in links" :key="icon" link>
+        <v-list-item
+          v-for="link in links"
+          :key="link.icon"
+          :to="link.route"
+          link
+        >
           <v-list-item-icon>
-            <v-icon :router="link">{{ icon }}</v-icon>
+            <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
+            <v-list-item-title>{{ link.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -52,10 +56,10 @@ export default {
     },
     drawer: null,
     links: [
-      ["mdi-database", "Data", "/about"],
-      ["mdi-microscope", "Analysis", "/analysis"],
-      ["mdi-folder-multiple", "Project", "/projects"],
-      ["mdi-account", "Account", "/account"]
+      { icon: "mdi-database", text: "About", route: "/about" },
+      { icon: "mdi-microscope", text: "Analysis", route: "/analysis" },
+      { icon: "mdi-folder-multiple", text: "Project", route: "/project" },
+      { icon: "mdi-account", text: "Account", route: "/account" }
     ]
   }),
   components: {

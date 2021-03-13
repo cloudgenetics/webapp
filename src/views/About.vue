@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { serverUrl } from "../../auth_config.json";
+import { HTTP } from "@/http-common";
 export default {
   name: "About",
   data() {
@@ -47,34 +47,45 @@ export default {
   },
   methods: {
     async callApiEndpoint() {
-      try {
-        const response = await fetch(`${serverUrl}/api/v1/`, {
-          mode: "no-cors"
-        });
-
-        const textmsg = await response.text();
-        this.apiMessage = textmsg;
-        console.log(response);
-      } catch (e) {
-        this.apiMessage = `Error: the server responded with '${e.response.status}: ${e.response.statusText}'`;
-      }
-    },
-    async callApiSecuredEndpoint() {
       const accessToken = await this.$auth.getTokenSilently();
-
       try {
-        const response = await fetch(`${serverUrl}/api/v1/protected/`, {
+        HTTP.get("", {
           mode: "no-cors",
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
-        });
-        console.log(accessToken);
-        const json = await response.json();
-        this.apiMessage = json.message;
+        })
+          .then(response => {
+            // JSON responses are automatically parsed.
+            console.log(response);
+            this.apiMessage = response.data;
+          })
+          .catch(e => {
+            this.errors.push(e);
+          });
       } catch (e) {
         console.log(e);
-        this.apiMessage = `Error: the server responded with '${e.response.status}: ${e.response.statusText}'`;
+      }
+    },
+    async callApiSecuredEndpoint() {
+      const accessToken = await this.$auth.getTokenSilently();
+      try {
+        HTTP.get("protected/", {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+          .then(response => {
+            // JSON responses are automatically parsed.
+            console.log(response);
+            this.apiMessage = response.data;
+          })
+          .catch(e => {
+            this.errors.push(e);
+          });
+      } catch (e) {
+        console.log(e);
       }
     }
   }
