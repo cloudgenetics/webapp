@@ -3,7 +3,7 @@ import Vuetify from 'vuetify'
 
 // Components
 import App from '@/App'
-import router from '../src/router'
+import router from '../../src/router'
 
 // Utilities
 import { createLocalVue, mount } from '@vue/test-utils'
@@ -33,7 +33,8 @@ describe('App.vue', () => {
   it('should have company name', () => {
     const wrapper = mount(App, {
       localVue,
-      vuetify
+      vuetify,
+      router
     })
 
     // With jest we can create snapshot files of the HTML output
