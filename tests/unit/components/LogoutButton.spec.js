@@ -1,16 +1,17 @@
 // Libraries
 import Vuetify from 'vuetify'
+import router from '../../../src/router'
 
 // Components
-import App from '@/App'
-import router from '../../src/router'
+import LogoutButton from '@/components/LogoutButton'
 
 // Utilities
 import { createLocalVue, mount } from '@vue/test-utils'
 import { Auth0Plugin } from '@/auth'
-import { domain, clientId, audience } from '../../auth_config.json'
+import { domain, clientId, audience } from '../../../auth_config.json'
 
-describe('App.vue', () => {
+
+describe('LogoutButton.vue', () => {
   const localVue = createLocalVue()
   let vuetify
 
@@ -19,7 +20,6 @@ describe('App.vue', () => {
       domain,
       clientId,
       audience,
-      router,
       onRedirectCallback: appState => {
         router.push(
           appState && appState.targetUrl
@@ -30,18 +30,14 @@ describe('App.vue', () => {
     })
   })
 
-  it('should have company name', () => {
-    const wrapper = mount(App, {
+  it('Check Logout text', () => {
+    const wrapper = mount(LogoutButton, {
       localVue,
       vuetify,
-      router
     })
 
     // With jest we can create snapshot files of the HTML output
-    //expect(wrapper.html()).toMatchSnapshot()
-    // Check the text content
-    const company = wrapper.find('.v-toolbar__title')
-    const company_name = process.env.VUE_APP_TITLE
-    expect(company.text()).toBe(company_name)
+    // expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.find('.v-btn__content').exists()).toBe(false)
   })
 })

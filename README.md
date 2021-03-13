@@ -31,8 +31,19 @@ yarn test:unit
 yarn lint
 ```
 
-### Customize environment variables
+## Customization
+### Environment variables
 
 Edit `.env` file to update the app title and url.
 
 To edit the theme modify `plugins/vuetify.js`.
+
+### Authentication
+Set-up an [Auth0 API](https://auth0.com/docs/get-started/set-up-apis). Update the `auth_config.json` file:
+```json
+{
+  "domain": "kks32.us.auth0.com",
+  "clientId": "5DtiTEV0juj2VxGMVsyzERHbJ4TTNuMl",
+  "audience": "https://localhost:4000"
+}
+```
