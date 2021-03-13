@@ -2,12 +2,12 @@
 import Vuetify from 'vuetify'
 
 // Components
-import Footer from '@/components/Footer'
+import LoginButton from '@/components/LoginButton'
 
 // Utilities
 import { createLocalVue, mount } from '@vue/test-utils'
 
-describe('Footer.vue', () => {
+describe('LoginButton.vue', () => {
   const localVue = createLocalVue()
   let vuetify
 
@@ -15,8 +15,8 @@ describe('Footer.vue', () => {
     vuetify = new Vuetify()
   })
 
-  it('should have copyright info', () => {
-    const wrapper = mount(Footer, {
+  it('Check login text', () => {
+    const wrapper = mount(LoginButton, {
       localVue,
       vuetify,
     })
@@ -26,8 +26,8 @@ describe('Footer.vue', () => {
 
     // We could also verify this differently
     // by checking the text content
-    const title = wrapper.find('.v-footer > span')
-    const copyright_info = '\u00A9 ' + new Date().getFullYear() + ' ' + process.env.VUE_APP_TITLE ;
-    expect(title.text()).toBe(copyright_info)
+    const accountText = wrapper.find('.v-btn__content')
+    const status = 'Log In';
+    expect(accountText.text()).toBe(status)
   })
 })
