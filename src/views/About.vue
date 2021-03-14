@@ -1,34 +1,22 @@
 <template>
-  <div>
-    <h1>External API</h1>
+  <div class="col-md-12 mb-3">
+    <h1>Get API information</h1>
     <p>
-      You use will use a button to call an external API using an access token,
-      and the API will validate it using the API's audience value.
-      <strong>This route should be private</strong>.
+      Fetch external API using an access token, and the API will validate it
+      using the API's audience value.
     </p>
-    <div
-      class="btn-group mt-5"
-      role="group"
-      aria-label="External API Requests Examples"
-    >
-      <button type="button" class="btn btn-primary" @click="callApiEndpoint">
-        Get Public Message
-      </button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="callApiSecuredEndpoint"
-      >
-        Get Private Message
-      </button>
-    </div>
-
+    <v-btn class="ma-2" @click="callApiEndpoint">
+      Fetch Public API version
+    </v-btn>
+    <v-btn class="ma-2" @click="callApiSecuredEndpoint">
+      Fetch Private API version
+    </v-btn>
     <div v-if="apiMessage" class="mt-5">
-      <h6 class="muted">Result</h6>
+      <h6 class="muted">Info</h6>
       <div class="container-fluid">
         <div class="row">
           <code class="col-12 text-light bg-dark p-4">
-            {{ JSON.stringify(apiMessage, null, 2) }}
+            {{ JSON.stringify(apiMessage, null, "\t") }}
           </code>
         </div>
       </div>
@@ -56,8 +44,6 @@ export default {
           }
         })
           .then(response => {
-            // JSON responses are automatically parsed.
-            console.log(response);
             this.apiMessage = response.data;
           })
           .catch(e => {
@@ -77,8 +63,6 @@ export default {
           }
         })
           .then(response => {
-            // JSON responses are automatically parsed.
-            console.log(response);
             this.apiMessage = response.data;
           })
           .catch(e => {
