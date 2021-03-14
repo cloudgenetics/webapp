@@ -4,6 +4,7 @@
 [![CircleCI](https://circleci.com/gh/cloudgenetics/webapp.svg?style=svg)](https://circleci.com/gh/cloudgenetics/webapp)
 [![Project management](https://img.shields.io/badge/projects-view-ff69b4.svg)](https://github.com/cloudgenetics/webapp/projects/)
 [![Known Vulnerabilities](https://snyk.io/test/github/cloudgenetics/webapp/badge.svg?targetFile=package.json)](https://snyk.io/test/github/cloudgenetics/webapp?targetFile=package.json)
+[![CodeQL](https://github.com/cloudgenetics/webapp/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cloudgenetics/webapp/actions/workflows/codeql-analysis.yml)
 
 
 ## Project setup
