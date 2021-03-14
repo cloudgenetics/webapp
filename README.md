@@ -2,8 +2,9 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://raw.githubusercontent.com/cityscapelabs/cityscape/develop/LICENSE)
 [![CircleCI](https://circleci.com/gh/cloudgenetics/webapp.svg?style=svg)](https://circleci.com/gh/cloudgenetics/webapp)
-[![Project management](https://img.shields.io/badge/projects-view-ff69b4.svg)](https://github.com/cloudgenetics/webapp/projects/)
+[![Project management](https://img.shields.io/badge/projects-view-ff69b4.svg)](https://github.com/orgs/cloudgenetics/projects/1)
 [![Known Vulnerabilities](https://snyk.io/test/github/cloudgenetics/webapp/badge.svg?targetFile=package.json)](https://snyk.io/test/github/cloudgenetics/webapp?targetFile=package.json)
+[![CodeQL](https://github.com/cloudgenetics/webapp/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cloudgenetics/webapp/actions/workflows/codeql-analysis.yml)
 
 
 ## Project setup
@@ -43,7 +44,8 @@ Set-up an [Auth0 API](https://auth0.com/docs/get-started/set-up-apis). Update th
 ```json
 {
   "domain": "kks32.us.auth0.com",
-  "clientId": "5DtiTEV0juj2VxGMVsyzERHbJ4TTNuMl",
-  "audience": "https://localhost:4000"
+  "clientId": "30wvMJ3q1F1BvmmBCHyUb6as18LLsE52",
+  "audience": "https://api.cloudgenetics.com",
+  "serverUrl": "http://localhost:4000"
 }
 ```
