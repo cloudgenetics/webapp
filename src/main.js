@@ -4,6 +4,9 @@ import Axios from './plugins/axios'
 import vuetify from './plugins/vuetify'
 import store from './store'
 import router from './router'
+import VueFormulate from '@braid/vue-formulate'
+import '../node_modules/@braid/vue-formulate/dist/snow.min.css'
+import S3UploaderPlugin from './s3-uploader-plugin'
 import { Auth0Plugin } from './auth'
 
 import { domain, clientId, audience } from '../auth_config.json'
@@ -22,6 +25,11 @@ Vue.use(Auth0Plugin, {
     )
   }
 })
+
+Vue.use(VueFormulate, {
+  uploadUrl: process.env.VUE_APP_UPLOAD_URL,
+  plugins: [S3UploaderPlugin]
+});
 
 Vue.use(Axios)
 

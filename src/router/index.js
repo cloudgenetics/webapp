@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import About from '../views/About.vue'
 import Account from '../views/Account.vue'
 import Home from '../views/Home.vue'
+import Upload from '../views/Upload.vue'
 
 import { authGuard } from "../auth/authGuard"
 
@@ -18,12 +19,19 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: About
+    component: About,
+    beforeEnter: authGuard
   },
   {
     path: '/account',
     name: 'Account',
     component: Account,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: Upload,
     beforeEnter: authGuard
   },
 ]
