@@ -1,11 +1,22 @@
+// import createAuth0Client from "@auth0/auth0-spa-js";
+// import { domain, clientId, redirectURL, audience } from '../auth_config.json'
 async function uploadToS3(file, progress, error, options) {
   const matches = file.name.match(/\.([a-zA-Z0-9]+)$/);
   const extension = matches ? matches[1] : "txt";
   progress(5);
+  /*
+  const auth0 = await createAuth0Client({
+    domain: domain,
+    client_id: clientId,
+    redirect_uri: redirectURL,
+  });
+  var accessToken = await auth0.getTokenSilently({audience});
+  */
   const response = await fetch(options.uploadUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
+      /* "Authorization": `Bearer ${accessToken}`,*/
     },
     body: JSON.stringify({
       extension,
@@ -20,7 +31,9 @@ async function uploadToS3(file, progress, error, options) {
     xhr.upload.addEventListener("progress", (e) =>
       progress(Math.round((e.loaded / e.total) * 90) + 10)
     );
+    // xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
     xhr.setRequestHeader("Content-Type", "application/octet-stream");
+    // console.log(accessToken)
     try {
       await new Promise((resolve, reject) => {
         xhr.onload = (e) =>
