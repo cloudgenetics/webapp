@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import About from '../views/About.vue'
 import Account from '../views/Account.vue'
+import Dataset from '../views/Dataset.vue'
 import Home from '../views/Home.vue'
 import Upload from '../views/Upload.vue'
 
@@ -26,6 +27,12 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: Account,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/dataset',
+    name: 'Dataset',
+    component: Dataset,
     beforeEnter: authGuard
   },
   {
