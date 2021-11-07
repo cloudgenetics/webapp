@@ -9,7 +9,7 @@ import '../node_modules/@braid/vue-formulate/dist/snow.min.css'
 import S3UploaderPlugin from './s3-uploader-plugin'
 import { Auth0Plugin } from './auth'
 
-import { domain, clientId, audience } from '../auth_config.json'
+import { domain, clientId, audience, serverUrl, apiVersion } from '../auth_config.json'
 
 Vue.config.productionTip = false
 
@@ -27,7 +27,7 @@ Vue.use(Auth0Plugin, {
 })
 
 Vue.use(VueFormulate, {
-  uploadUrl: process.env.VUE_APP_UPLOAD_URL,
+  uploadUrl: `${serverUrl}${apiVersion}signature`,
   plugins: [S3UploaderPlugin]
 });
 
