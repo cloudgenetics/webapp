@@ -37,6 +37,7 @@ export default {
     async callApiEndpoint() {
       const accessToken = await this.$auth.getTokenSilently();
       try {
+        console.log(accessToken);
         HTTP.get("", {
           mode: "no-cors",
           headers: {

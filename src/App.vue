@@ -57,7 +57,7 @@ export default {
     drawer: null,
     links: [
       { icon: "mdi-information", text: "About", route: "/about" },
-      { icon: "mdi-database", text: "Data", route: "/data" },
+      { icon: "mdi-database", text: "Dataset", route: "/dataset" },
       { icon: "mdi-microscope", text: "Analysis", route: "/analysis" },
       { icon: "mdi-folder-multiple", text: "Project", route: "/project" },
       { icon: "mdi-account", text: "Account", route: "/account" }

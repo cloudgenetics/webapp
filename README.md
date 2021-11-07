@@ -35,7 +35,7 @@ yarn lint
 ## Customization
 ### Environment variables
 
-Edit `.env` file to update the app title and url.
+Edit `.env` file to update the app title, app url and app upload URL (AWS Endpoint) for file uploads.
 
 To edit the theme modify `plugins/vuetify.js`.
 
