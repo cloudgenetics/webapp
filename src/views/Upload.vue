@@ -11,8 +11,8 @@
           multiple
           validation=""
         />
-        <FormulateInput type="submit" />
-        <h4>Submitted Data</h4>
+        <FormulateInput type="submit" label="upload" />
+        <h4>uploaded data</h4>
         <pre>{{ data }}</pre>
       </FormulateForm>
     </div>
@@ -24,8 +24,7 @@ export default {
   name: "Upload",
   data() {
     return {
-      data: {},
-      apiMessage: null
+      data: {}
     };
   },
   methods: {
@@ -35,3 +34,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.formulate-input[data-classification="button"]::v-deep button {
+  background-color: #424242;
+  color: white;
+  border: 1px solid;
+}
+</style>

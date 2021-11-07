@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-12 mb-3">
     <h1>Dataset</h1>
-    <v-btn class="mx-2" fab dark to="/upload">
+    <v-btn class="mx-2" fab dark to="/dataset/upload">
       <v-icon dark>
         mdi-plus
       </v-icon>

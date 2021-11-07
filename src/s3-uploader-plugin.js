@@ -22,7 +22,7 @@ async function uploadToS3(file, progress, error, options) {
     })
   });
   if (response.ok) {
-    const { uploadUrl } = await response.json();
+    const { datasetid, uploadUrl } = await response.json();
     progress(10);
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", uploadUrl);
@@ -44,7 +44,8 @@ async function uploadToS3(file, progress, error, options) {
       return {
         url: `${url.protocol}//${url.host}${url.pathname}`,
         name: file.name,
-        size: file.size
+        size: file.size,
+        datasetid: datasetid
       };
     } catch {
       // we'll suppress this since we have a catch all error

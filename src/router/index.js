@@ -36,7 +36,7 @@ const routes = [
     beforeEnter: authGuard
   },
   {
-    path: '/upload',
+    path: '/dataset/upload',
     name: 'Upload',
     component: Upload,
     beforeEnter: authGuard
