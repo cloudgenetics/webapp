@@ -24,14 +24,14 @@ export default {
   name: "Upload",
   data() {
     return {
-      data: {}
+      data: {},
     };
   },
   methods: {
     async handleSubmit(data) {
       this.data = data;
-    }
-  }
+    },
+  },
 };
 </script>
 

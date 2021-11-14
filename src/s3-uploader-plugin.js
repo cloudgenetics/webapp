@@ -21,6 +21,7 @@ async function uploadToS3(file, progress, error, options) {
       mime: file.type || "application/octet-stream"
     })
   });
+  console.log(options)
   if (response.ok) {
     const { datasetid, uploadUrl } = await response.json();
     progress(10);

@@ -6,6 +6,7 @@ import Account from '../views/Account.vue'
 import Dataset from '../views/Dataset.vue'
 import Home from '../views/Home.vue'
 import Upload from '../views/Upload.vue'
+import S3Upload from '../views/S3Upload.vue'
 
 import { authGuard } from "../auth/authGuard"
 
@@ -39,6 +40,12 @@ const routes = [
     path: '/dataset/upload',
     name: 'Upload',
     component: Upload,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/dataset/s3upload',
+    name: 'S3Upload',
+    component: S3Upload,
     beforeEnter: authGuard
   },
 ]
