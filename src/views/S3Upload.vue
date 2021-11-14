@@ -1,15 +1,24 @@
 <template>
   <div class="col-md-12 mb-3">
     <h1>New genome dataset</h1>
-    <v-file-input v-model="file" show-size label="dataset input"></v-file-input>
+    <v-file-input
+      v-model="files"
+      multiple
+      show-size
+      label="dataset input"
+    ></v-file-input>
     <v-card elevation="2">
-      <v-list-item v-for="(item, i) in file" :key="i">
+      <v-list-item v-for="(file, i) in files" :key="i">
         <v-list-item-content>
-          <v-list-item-title v-text="item.name"></v-list-item-title>
+          <v-list-item-title v-text="file.name"></v-list-item-title>
+          <v-list-item-title v-text="file.size"></v-list-item-title>
+          <v-list-item-title v-model="progress[i]"
+            >Progress: {{ progress[i] }}</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
     </v-card>
-    <v-btn @click="handleSubmit">
+    <v-btn @click="uploadFiles">
       Upload
       <v-icon right dark> mdi-cloud-upload </v-icon>
     </v-btn>
@@ -30,17 +39,25 @@ import {
 export default {
   name: "S3Upload",
   data: () => ({
-    file: [],
+    files: [],
     uploads: [],
+    progress: [],
   }),
   watch: {
-    file: function () {
-      console.log(this.file);
+    files: function () {
+      console.log(this.files);
+      this.progress = new Array(this.files.length).fill(0);
     },
   },
   methods: {
-    async handleSubmit() {
-      // progress(5);
+    uploadFiles() {
+      for (let i = 0; i < this.files.length; i++) {
+        this.uploads[i] = this.uploadFile(this.files[i], i);
+        console.log(this.uploads[i]);
+      }
+    },
+    async uploadFile(file, id) {
+      this.progress[id] = 5;
       const auth0 = await createAuth0Client({
         domain: domain,
         client_id: clientId,
@@ -56,18 +73,20 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: this.file.name,
-          mime: this.file.type || "application/octet-stream",
+          name: file.name,
+          mime: file.type || "application/octet-stream",
         }),
       });
       if (response.ok) {
         const { datasetid, uploadUrl } = await response.json();
-        // progress(10);
+        this.progress[id] = 10;
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", uploadUrl);
-        // xhr.upload.addEventListener("progress", (e) =>
-        // progress(Math.round((e.loaded / e.total) * 90) + 10)
-        //);
+        xhr.upload.addEventListener(
+          "progress",
+          (e) =>
+            (this.progress[id] = Math.round((e.loaded / e.total) * 90) + 10)
+        );
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
         try {
           await new Promise((resolve, reject) => {
@@ -78,12 +97,12 @@ export default {
             xhr.onerror = (e) => reject(new Error("Failed to upload", e));
             xhr.send(this.file);
           });
-          console.log(100);
+          this.progress[id] = 100;
           const url = new URL(uploadUrl);
           return {
             url: `${url.protocol}//${url.host}${url.pathname}`,
-            name: this.file.name,
-            size: this.file.size,
+            name: file.name,
+            size: file.size,
             datasetid: datasetid,
           };
         } catch {
