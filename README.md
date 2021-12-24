@@ -22,6 +22,11 @@ yarn serve
 yarn build
 ```
 
+### Deploy to AWS s3
+```
+yarn deploy
+```
+
 ### Run your unit tests
 ```
 yarn test:unit

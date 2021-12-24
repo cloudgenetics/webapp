@@ -26,6 +26,7 @@
 
 <script>
 import { HTTP } from "@/http-common";
+import { redirectURL } from '../../auth_config.json'
 export default {
   name: "About",
   data() {
@@ -37,9 +38,10 @@ export default {
     async callApiEndpoint() {
       const accessToken = await this.$auth.getTokenSilently();
       try {
-        HTTP.get("", {
-          mode: "no-cors",
+        HTTP.get("version", {
+          mode: 'cors',
           headers: {
+            'Access-Control-Allow-Origin': `${redirectURL}`,
             Authorization: `Bearer ${accessToken}`
           }
         })
@@ -56,9 +58,10 @@ export default {
     async callApiSecuredEndpoint() {
       const accessToken = await this.$auth.getTokenSilently();
       try {
-        HTTP.get("protected/", {
+        HTTP.get("protected", {
+          mode: 'cors',
           headers: {
-            "Access-Control-Allow-Origin": "*",
+            'Access-Control-Allow-Origin': `${redirectURL}`,
             Authorization: `Bearer ${accessToken}`
           }
         })
