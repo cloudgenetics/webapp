@@ -58,7 +58,7 @@ export default {
     async callApiSecuredEndpoint() {
       const accessToken = await this.$auth.getTokenSilently();
       try {
-        HTTP.get("protected", {
+        HTTP.get("protected/version", {
           mode: 'cors',
           headers: {
             'Access-Control-Allow-Origin': `${redirectURL}`,
