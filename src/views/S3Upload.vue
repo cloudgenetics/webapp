@@ -1,20 +1,29 @@
 <template>
   <div class="col-md-12 mb-3">
-    <h1>New genome dataset</h1>
+    <h1>Genome dataset</h1>
     <v-file-input
       v-model="files"
       multiple
       show-size
-      label="dataset input"
+      label="add files"
     ></v-file-input>
     <v-card elevation="2">
+      <v-col cols="12" v-if="!uploadStatus">
+        <v-progress-linear
+          color="grey accent-4"
+          indeterminate
+          rounded
+          height="6"
+        ></v-progress-linear>
+      </v-col>
       <v-list-item v-for="(file, i) in files" :key="i">
         <v-list-item-content>
           <v-list-item-title v-text="file.name"></v-list-item-title>
-          <v-list-item-title v-text="file.size"></v-list-item-title>
+          <v-card-text>Size: {{ file.size / 1000 }} kb <br/> Upload: {{ file.status }} </v-card-text>
         </v-list-item-content>
       </v-list-item>
     </v-card>
+    <br/>
     <v-btn @click="uploadFiles">
       Upload
       <v-icon right dark> mdi-cloud-upload </v-icon>
@@ -37,24 +46,30 @@ export default {
   name: "S3Upload",
   data: () => ({
     files: [],
-    uploads: [],
-    progress: [],
+    uploadStatus: true,
   }),
   watch: {
     files: function () {
-      console.log(this.files);
-      this.progress = new Array(this.files.length).fill(0);
+      this.uploads = new Array(this.files.length).fill(false);
+      this.responses = new Array(this.files.length).fill({});
+      for (let i = 0; i < this.files.length; i++) {
+        this.files[i].status = "pending";
+      }
     },
   },
   methods: {
     uploadFiles() {
+      this.uploadStatus = false
       for (let i = 0; i < this.files.length; i++) {
-        this.uploads[i] = this.uploadFile(this.files[i], i);
-        console.log(this.uploads[i]);
+        this.files[i].status = "in progress"
+        this.uploadFile(this.files[i]).then((response) => {
+          this.files[i].status = (response.status == 200 ? "complete" : response.status)
+          if (this.files.filter(file => file.status === "complete").length == this.files.length)
+            this.uploadStatus = true;
+        });
       }
     },
-    async uploadFile(file, id) {
-      this.progress[id] = 5;
+    async uploadFile(file) {
       const auth0 = await createAuth0Client({
         domain: domain,
         client_id: clientId,
@@ -64,9 +79,9 @@ export default {
       var uploadUrl = `${serverUrl}${apiVersion}signature`;
       const response = await fetch(uploadUrl, {
         method: "POST",
-        mode: 'cors',
+        mode: "cors",
         headers: {
-          'Access-Control-Allow-Origin': `${redirectURL}`,
+          "Access-Control-Allow-Origin": `${redirectURL}`,
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
@@ -77,14 +92,8 @@ export default {
       });
       if (response.ok) {
         const { datasetid, uploadUrl } = await response.json();
-        this.progress[id] = 10;
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", uploadUrl);
-        xhr.upload.addEventListener(
-          "progress",
-          (e) =>
-            (this.progress[id] = Math.round((e.loaded / e.total) * 90) + 10)
-        );
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
         try {
           await new Promise((resolve, reject) => {
@@ -95,13 +104,13 @@ export default {
             xhr.onerror = (e) => reject(new Error("Failed to upload", e));
             xhr.send(file);
           });
-          this.progress[id] = 100;
           const url = new URL(uploadUrl);
           return {
             url: `${url.protocol}//${url.host}${url.pathname}`,
             name: file.name,
             size: file.size,
             datasetid: datasetid,
+            status: xhr.status,
           };
         } catch {
           // we'll suppress this since we have a catch all error

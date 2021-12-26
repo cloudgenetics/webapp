@@ -2,9 +2,9 @@
   "domain": "kks32.us.auth0.com",
   "clientId": "30wvMJ3q1F1BvmmBCHyUb6as18LLsE52",
   "audience": "https://api.cloudgenetics.com",
-  "redirectURL": "http://localhost:8080",
-  "serverUrl": "http://localhost:5000/",
-  "#redirectURL": "https://dev-app.csgcompute.com",
-  "#serverUrl": "https://dev-api.csgcompute.com/",
+  "#redirectURL": "http://localhost:8080",
+  "#serverUrl": "http://localhost:5000/",
+  "redirectURL": "https://dev-app.csgcompute.com",
+  "serverUrl": "https://dev-api.csgcompute.com/",
   "apiVersion": "api/v1/"
 }

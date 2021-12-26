@@ -1,5 +1,5 @@
 import createAuth0Client from "@auth0/auth0-spa-js";
-import { domain, clientId, redirectURL, audience } from '../auth_config.json'
+import { domain, clientId, serverUrl, apiVersion, redirectURL, audience } from '../auth_config.json'
 async function uploadToS3(file, progress, error, options) {
   progress(5);
   const auth0 = await createAuth0Client({
@@ -8,11 +8,11 @@ async function uploadToS3(file, progress, error, options) {
     redirect_uri: redirectURL,
   });
   var accessToken = await auth0.getTokenSilently({audience});
-  
-  const response = await fetch(options.uploadUrl, {
+  var presignedUrl = `${serverUrl}${apiVersion}signature`
+  const response = await fetch(presignedUrl, {
     method: "POST",
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": `${redirectURL}`,
       "Authorization": `Bearer ${accessToken}`,
       "Content-Type": "application/json"
     },
