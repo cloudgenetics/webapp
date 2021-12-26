@@ -44,6 +44,7 @@ import {
   serverUrl,
   apiVersion,
 } from "../../auth_config.json";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: "S3Upload",
@@ -51,6 +52,7 @@ export default {
     files: [],
     uploadStatus: true,
     progress: 0,
+    uuid: uuidv4(),
   }),
   watch: {
     files: function () {
@@ -83,7 +85,7 @@ export default {
         redirect_uri: redirectURL,
       });
       var accessToken = await auth0.getTokenSilently({ audience });
-      var uploadUrl = `${serverUrl}${apiVersion}signature`;
+      var uploadUrl = `${serverUrl}${apiVersion}presignedurl`;
       const response = await fetch(uploadUrl, {
         method: "POST",
         mode: "cors",
@@ -94,6 +96,7 @@ export default {
         },
         body: JSON.stringify({
           name: file.name,
+          uuid: this.uuid,
           mime: file.type || "application/octet-stream",
         }),
       });
