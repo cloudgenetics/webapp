@@ -12,9 +12,6 @@
         <v-list-item-content>
           <v-list-item-title v-text="file.name"></v-list-item-title>
           <v-list-item-title v-text="file.size"></v-list-item-title>
-          <v-list-item-title v-model="progress[i]"
-            >Progress: {{ progress[i] }}</v-list-item-title
-          >
         </v-list-item-content>
       </v-list-item>
     </v-card>
@@ -67,8 +64,9 @@ export default {
       var uploadUrl = `${serverUrl}${apiVersion}signature`;
       const response = await fetch(uploadUrl, {
         method: "POST",
+        mode: 'cors',
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          'Access-Control-Allow-Origin': `${redirectURL}`,
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
@@ -95,7 +93,7 @@ export default {
                 ? resolve()
                 : reject(new Error("Failed to upload", e));
             xhr.onerror = (e) => reject(new Error("Failed to upload", e));
-            xhr.send(this.file);
+            xhr.send(file);
           });
           this.progress[id] = 100;
           const url = new URL(uploadUrl);
