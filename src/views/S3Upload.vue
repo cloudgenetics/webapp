@@ -7,11 +7,15 @@
       show-size
       label="add files"
     ></v-file-input>
+    <v-btn @click="uploadFiles">
+      Upload
+      <v-icon right dark> mdi-cloud-upload </v-icon>
+    </v-btn>
     <v-card elevation="2">
       <v-col cols="12" v-if="!uploadStatus">
         <v-progress-linear
           color="grey accent-4"
-          indeterminate
+          v-model="progress"
           rounded
           height="6"
         ></v-progress-linear>
@@ -21,16 +25,12 @@
           <v-list-item-title v-text="file.name"></v-list-item-title>
           <v-card-text
             >Size: {{ file.size / 1000 }} kb <br />
-            Upload: {{ file.status }}
+            Upload: {{ file.status }} <br />
+            Progress: {{ progress }} %
           </v-card-text>
         </v-list-item-content>
       </v-list-item>
     </v-card>
-    <br />
-    <v-btn @click="uploadFiles">
-      Upload
-      <v-icon right dark> mdi-cloud-upload </v-icon>
-    </v-btn>
   </div>
 </template>
 
@@ -50,10 +50,11 @@ export default {
   data: () => ({
     files: [],
     uploadStatus: true,
+    progress: 0,
   }),
   watch: {
     files: function () {
-      this.uploads = new Array(this.files.length).fill(false);
+      // this.progress = new Array(this.files.length).fill(0);
       this.files.forEach((file) => {
         file["status"] = "pending";
       });
@@ -101,6 +102,9 @@ export default {
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", uploadUrl);
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
+        xhr.upload.addEventListener('progress', (e) =>
+          this.progress = (Math.round((e.loaded / e.total) * 90) + 10)
+        );
         try {
           await new Promise((resolve, reject) => {
             xhr.onload = (e) =>
