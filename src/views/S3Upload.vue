@@ -19,11 +19,14 @@
       <v-list-item v-for="(file, i) in files" :key="i">
         <v-list-item-content>
           <v-list-item-title v-text="file.name"></v-list-item-title>
-          <v-card-text>Size: {{ file.size / 1000 }} kb <br/> Upload: {{ file.status }} </v-card-text>
+          <v-card-text
+            >Size: {{ file.size / 1000 }} kb <br />
+            Upload: {{ file.status }}
+          </v-card-text>
         </v-list-item-content>
       </v-list-item>
     </v-card>
-    <br/>
+    <br />
     <v-btn @click="uploadFiles">
       Upload
       <v-icon right dark> mdi-cloud-upload </v-icon>
@@ -51,20 +54,23 @@ export default {
   watch: {
     files: function () {
       this.uploads = new Array(this.files.length).fill(false);
-      this.responses = new Array(this.files.length).fill({});
-      for (let i = 0; i < this.files.length; i++) {
-        this.files[i].status = "pending";
-      }
+      this.files.forEach((file) => {
+        file["status"] = "pending";
+      });
     },
   },
   methods: {
     uploadFiles() {
-      this.uploadStatus = false
+      this.uploadStatus = false;
       for (let i = 0; i < this.files.length; i++) {
-        this.files[i].status = "in progress"
+        this.files[i].status = "in progress";
         this.uploadFile(this.files[i]).then((response) => {
-          this.files[i].status = (response.status == 200 ? "complete" : response.status)
-          if (this.files.filter(file => file.status === "complete").length == this.files.length)
+          this.files[i].status =
+            response.status == 200 ? "complete" : response.status;
+          if (
+            this.files.filter((file) => file.status === "complete").length ==
+            this.files.length
+          )
             this.uploadStatus = true;
         });
       }
