@@ -12,7 +12,7 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.17.0",
     "@braid/vue-formulate": "^2.5.2",
-    "axios": "^0.21.4",
+    "axios": "^0.24.0",
     "core-js": "^3.16.3",
     "vue": "^2.6.14",
     "vue-router": "^3.5.2",
