@@ -7,13 +7,18 @@
       show-size
       label="add files"
     ></v-file-input>
-    <v-btn @click="uploadFiles" 
-      :disabled=uploadDisabled>
+    <v-btn @click="uploadFiles" :disabled="uploadDisabled">
       Upload
       <v-icon right dark> mdi-cloud-upload </v-icon>
     </v-btn>
+    <v-alert v-if="uploadStatus === 'success'" dense text type="success">
+      Upload completed <strong>successfully</strong>.
+    </v-alert>
+    <v-alert v-if="uploadStatus === 'fail'" dense text type="error">
+      Upload <strong>failed</strong>.
+    </v-alert>
     <v-card elevation="2">
-      <v-col cols="12" v-if="!uploadStatus">
+      <v-col cols="12" v-if="uploadProgress">
         <v-progress-linear
           color="grey accent-4"
           v-model="progress"
@@ -37,6 +42,7 @@
 
 <script>
 import createAuth0Client from "@auth0/auth0-spa-js";
+import UploadStatus from "../upload-status"
 import {
   domain,
   clientId,
@@ -51,7 +57,8 @@ export default {
   name: "S3Upload",
   data: () => ({
     files: [],
-    uploadStatus: true,
+    uploadProgress: false,
+    uploadStatus: UploadStatus.Pending,
     progress: 0,
     uuid: uuidv4(),
   }),
@@ -65,12 +72,12 @@ export default {
   },
   computed: {
     uploadDisabled() {
-      return this.files.length === 0
-    }
+      return this.files.length === 0;
+    },
   },
   methods: {
     uploadFiles() {
-      this.uploadStatus = false;
+      this.uploadProgress = true;
       for (let i = 0; i < this.files.length; i++) {
         this.files[i].status = "in progress";
         this.uploadFile(this.files[i]).then((response) => {
@@ -80,7 +87,8 @@ export default {
             this.files.filter((file) => file.status === "complete").length ==
             this.files.length
           )
-            this.uploadStatus = true;
+            this.uploadStatus = UploadStatus.Success;
+            this.uploadProgress = false;
         });
       }
     },
@@ -92,7 +100,7 @@ export default {
       });
       var accessToken;
       try {
-        accessToken =  await auth0.getTokenSilently({ audience });
+        accessToken = await auth0.getTokenSilently({ audience });
       } catch (e) {
         if (e.error === "login_required") {
           auth0.loginWithRedirect();
@@ -147,6 +155,7 @@ export default {
           // we'll suppress this since we have a catch all error
         }
       }
+      this.uploadStatus = UploadStatus.Fail;
       // Catch all error
       console.log(
         "Sorry, we encountered an error when trying to upload your file."
