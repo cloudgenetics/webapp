@@ -96,7 +96,6 @@ export default {
         }
         throw e;
       }
-      console.log(accessToken)
       var uploadUrl = `${serverUrl}${apiVersion}presignedurl`;
       const response = await fetch(uploadUrl, {
         method: "POST",
