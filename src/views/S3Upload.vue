@@ -7,7 +7,8 @@
       show-size
       label="add files"
     ></v-file-input>
-    <v-btn @click="uploadFiles">
+    <v-btn @click="uploadFiles" 
+      :disabled=uploadDisabled>
       Upload
       <v-icon right dark> mdi-cloud-upload </v-icon>
     </v-btn>
@@ -61,6 +62,11 @@ export default {
         file["status"] = "pending";
       });
     },
+  },
+  computed: {
+    uploadDisabled() {
+      return this.files.length === 0
+    }
   },
   methods: {
     uploadFiles() {
