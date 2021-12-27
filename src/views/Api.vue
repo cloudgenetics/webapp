@@ -28,7 +28,7 @@
 import { HTTP } from "@/http-common";
 import { redirectURL } from '../../auth_config.json'
 export default {
-  name: "About",
+  name: "Api",
   data() {
     return {
       apiMessage: null

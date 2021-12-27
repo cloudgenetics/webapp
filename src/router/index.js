@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import About from '../views/About.vue'
+import Api from '../views/Api.vue'
 import Account from '../views/Account.vue'
 import Dataset from '../views/Dataset.vue'
 import Home from '../views/Home.vue'
@@ -18,9 +18,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About,
+    path: '/api',
+    name: 'Api',
+    component: Api,
     beforeEnter: authGuard
   },
   {
