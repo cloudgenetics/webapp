@@ -44,7 +44,7 @@ import {
   serverUrl,
   apiVersion,
 } from "../../auth_config.json";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "S3Upload",
@@ -84,7 +84,19 @@ export default {
         client_id: clientId,
         redirect_uri: redirectURL,
       });
-      var accessToken = await auth0.getTokenSilently({ audience });
+      var accessToken;
+      try {
+        accessToken =  await auth0.getTokenSilently({ audience });
+      } catch (e) {
+        if (e.error === "login_required") {
+          auth0.loginWithRedirect();
+        }
+        if (e.error === "consent_required") {
+          auth0.loginWithRedirect();
+        }
+        throw e;
+      }
+      console.log(accessToken)
       var uploadUrl = `${serverUrl}${apiVersion}presignedurl`;
       const response = await fetch(uploadUrl, {
         method: "POST",
@@ -105,8 +117,9 @@ export default {
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", uploadUrl);
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
-        xhr.upload.addEventListener('progress', (e) =>
-          this.progress = (Math.round((e.loaded / e.total) * 90) + 10)
+        xhr.upload.addEventListener(
+          "progress",
+          (e) => (this.progress = Math.round((e.loaded / e.total) * 90) + 10)
         );
         try {
           await new Promise((resolve, reject) => {
