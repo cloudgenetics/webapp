@@ -19,13 +19,52 @@
         JSON.stringify($auth.user, null, 2)
       }}</pre>
     </div>
+    <v-btn class="ma-2" @click="registerUser">
+      Register
+    </v-btn>
   </div>
 </template>
 
 
 
 <script>
+import { HTTP } from "@/http-common";
+import { redirectURL } from '../../auth_config.json'
+
 export default {
-  name: "Account"
+  name: "Account",
+  data() {
+    return {
+      user: {
+        name: this.$auth.user.name,
+        email: this.$auth.user.email,
+        emailverify: this.$auth.user.emailverify,
+        userid: this.$auth.user.sub,
+      }
+    }
+  },
+  methods: {
+      async registerUser() {
+      const accessToken = await this.$auth.getTokenSilently();
+      try {
+        console.log(JSON.stringify(this.user)),
+        HTTP.post("user/register", JSON.stringify(this.user), {
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': `${redirectURL}`,
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(e => {
+            this.errors.push(e);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 };
 </script>
