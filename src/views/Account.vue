@@ -14,14 +14,15 @@
       </div>
     </div>
 
-    <div class="row">
-      <pre class="col-12 text-light bg-dark p-4">{{
-        JSON.stringify($auth.user, null, 2)
-      }}</pre>
-    </div>
     <v-btn class="ma-2" @click="registerUser">
       Register
     </v-btn>
+    <v-alert v-if="registerStatus === true" dense text type="success">
+      User registeration <strong>successful</strong>.
+    </v-alert>
+    <v-alert v-if="registerStatus === false" dense text type="error">
+      User registration <strong>failed.</strong> {{errmsg}}.
+    </v-alert>
   </div>
 </template>
 
@@ -38,16 +39,18 @@ export default {
       user: {
         name: this.$auth.user.name,
         email: this.$auth.user.email,
-        emailverify: this.$auth.user.emailverify,
+        email_verify: this.$auth.user.email_verified,
         userid: this.$auth.user.sub,
-      }
+        updated_at: this.$auth.user.updated_at,
+      },
+      registerStatus: null,
+      errmsg: null,
     }
   },
   methods: {
       async registerUser() {
       const accessToken = await this.$auth.getTokenSilently();
       try {
-        console.log(JSON.stringify(this.user)),
         HTTP.post("user/register", JSON.stringify(this.user), {
           mode: 'cors',
           headers: {
@@ -56,10 +59,18 @@ export default {
           }
         })
           .then(response => {
-            console.log(response.data)
+            console.log(response)
+            if (response.data.msg == "success") {
+              this.registerStatus = true;
+            } else {
+              this.registerStatus = false;
+              this.errmsg = response.data.msg;
+            }            
           })
           .catch(e => {
             this.errors.push(e);
+            this.registerStatus = "fail";
+            this.errmsg = e;
           });
       } catch (e) {
         console.log(e);
