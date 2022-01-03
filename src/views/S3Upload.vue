@@ -7,7 +7,11 @@
       show-size
       label="add files"
     ></v-file-input>
-    <v-btn @click="uploadFiles" :disabled="uploadDisabled">
+    <v-btn
+      @click="uploadFiles"
+      :disabled="uploadDisabled"
+      :color="uploadDisabled ? '#cccccc' : 'success'"
+    >
       Upload
       <v-icon right dark> mdi-cloud-upload </v-icon>
     </v-btn>
@@ -42,7 +46,7 @@
 
 <script>
 import createAuth0Client from "@auth0/auth0-spa-js";
-import UploadStatus from "../upload-status"
+import UploadStatus from "../upload-status";
 import {
   domain,
   clientId,
@@ -58,6 +62,7 @@ export default {
   data: () => ({
     files: [],
     uploadProgress: false,
+    uploadDisabled: true,
     uploadStatus: UploadStatus.Pending,
     progress: 0,
     uuid: uuidv4(),
@@ -68,16 +73,13 @@ export default {
       this.files.forEach((file) => {
         file["status"] = "pending";
       });
-    },
-  },
-  computed: {
-    uploadDisabled() {
-      return this.files.length === 0;
+      this.uploadDisabled = this.files.length === 0 ? true : false;
     },
   },
   methods: {
     uploadFiles() {
       this.uploadProgress = true;
+      this.uploadDisabled = true;
       for (let i = 0; i < this.files.length; i++) {
         this.files[i].status = "in progress";
         this.uploadFile(this.files[i]).then((response) => {
@@ -88,7 +90,7 @@ export default {
             this.files.length
           )
             this.uploadStatus = UploadStatus.Success;
-            this.uploadProgress = false;
+          this.uploadProgress = false;
         });
       }
     },
