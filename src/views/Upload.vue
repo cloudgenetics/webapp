@@ -1,12 +1,18 @@
 <template>
   <div class="col-md-12 mb-3">
+    <h2>Genomics dataset: {{datasetName}}</h2>
     <v-text-field
+      v-if="!createDataset"
       label="Name of genome dataset"
-      :v-model="datasetName"
+      v-model="datasetName"
       outlined
       :disabled="createDataset"
     ></v-text-field>
-    <v-btn v-if="!createDataset" @click="create_dataset" :disabled="createDataset">
+    <v-btn
+      v-if="!createDataset"
+      @click="create_dataset"
+      :disabled="!dsname"
+    >
       Create dataset
       <v-icon right dark> mdi-folder-plus </v-icon>
     </v-btn>
@@ -57,6 +63,7 @@
 </template>
 
 <script>
+import { HTTP } from "@/http-common";
 import UploadStatus from "../upload-status";
 import {
   redirectURL,
@@ -66,7 +73,7 @@ import {
 } from "../../auth_config.json";
 
 export default {
-  name: "S3Upload",
+  name: "Upload",
   data: () => ({
     files: [],
     uploadProgress: false,
@@ -74,7 +81,8 @@ export default {
     uploadStatus: UploadStatus.Pending,
     progress: 0,
     datasetid: null,
-    datasetName: null,
+    datasetName: "",
+    dsname: false,
     createDataset: false,
   }),
   watch: {
@@ -85,27 +93,36 @@ export default {
       });
       this.uploadDisabled = this.files.length === 0 ? true : false;
     },
+    datasetName: function () {
+      if (this.datasetName.length > 0)
+        this.dsname = true
+    }
   },
   methods: {
     async create_dataset() {
       const accessToken = await this.$auth.getTokenSilently({ audience });
       var uploadUrl = `${serverUrl}${apiVersion}dataset/new`;
-      const response = await fetch(uploadUrl, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Access-Control-Allow-Origin": `${redirectURL}`,
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
+      // Register new dataset in DB and retrieve dataset id
+      HTTP.post(
+        uploadUrl,
+        JSON.stringify({
           datasetname: this.datasetName,
         }),
-      });
-      if (response.ok) {
-        const { datasetid } = await response.json();
-        this.datasetid = datasetid
-        this.dataset = true
-      }
+        {
+          mode: "cors",
+          headers: {
+            "Access-Control-Allow-Origin": `${redirectURL}`,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+        .then((response) => {
+          this.datasetid = response.data["datasetid"];
+          this.createDataset = true
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
     uploadFiles() {
       this.uploadProgress = true;
