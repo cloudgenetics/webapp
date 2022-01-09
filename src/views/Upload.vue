@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-12 mb-3">
-    <h2>Genomics dataset: {{datasetName}}</h2>
+    <h2>Genomics dataset: {{ datasetName }}</h2>
     <v-text-field
       v-if="!createDataset"
       label="Name of genome dataset"
@@ -8,11 +8,7 @@
       outlined
       :disabled="createDataset"
     ></v-text-field>
-    <v-btn
-      v-if="!createDataset"
-      @click="create_dataset"
-      :disabled="!dsname"
-    >
+    <v-btn v-if="!createDataset" @click="create_dataset" :disabled="!dsname">
       Create dataset
       <v-icon right dark> mdi-folder-plus </v-icon>
     </v-btn>
@@ -63,7 +59,7 @@
 </template>
 
 <script>
-import { HTTP } from "@/http-common";
+// import { HTTP } from "@/http-common";
 import UploadStatus from "../upload-status";
 import {
   redirectURL,
@@ -94,35 +90,31 @@ export default {
       this.uploadDisabled = this.files.length === 0 ? true : false;
     },
     datasetName: function () {
-      if (this.datasetName.length > 0)
-        this.dsname = true
-    }
+      if (this.datasetName.length > 0) this.dsname = true;
+    },
   },
   methods: {
     async create_dataset() {
       const accessToken = await this.$auth.getTokenSilently({ audience });
       var uploadUrl = `${serverUrl}${apiVersion}dataset/new`;
       // Register new dataset in DB and retrieve dataset id
-      HTTP.post(
-        uploadUrl,
-        JSON.stringify({
-          datasetname: this.datasetName,
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Origin": `${redirectURL}`,
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.datasetName,
         }),
-        {
-          mode: "cors",
-          headers: {
-            "Access-Control-Allow-Origin": `${redirectURL}`,
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-        .then((response) => {
-          this.datasetid = response.data["datasetid"];
-          this.createDataset = true
-        })
-        .catch((e) => {
-          this.errors.push(e);
-        });
+      });
+      if (response.ok) {
+        const { datasetid } = await response.json();
+        this.datasetid = datasetid;
+        this.createDataset = true;
+      }
     },
     uploadFiles() {
       this.uploadProgress = true;
