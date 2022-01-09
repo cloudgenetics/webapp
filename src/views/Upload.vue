@@ -55,6 +55,7 @@ import {
 
 export default {
   name: "Upload",
+  props: ['datasetid'],
   data: () => ({
     files: [],
     uploadProgress: false,
