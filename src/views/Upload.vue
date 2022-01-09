@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { HTTP } from "@/http-common";
 import UploadStatus from "../upload-status";
 import {
   redirectURL,
@@ -55,7 +56,7 @@ import {
 
 export default {
   name: "Upload",
-  props: ['datasetid'],
+  props: ["datasetid"],
   data: () => ({
     files: [],
     uploadProgress: false,
@@ -75,6 +76,17 @@ export default {
     },
   },
   methods: {
+    async addFile(file) {
+      const accessToken = await this.$auth.getTokenSilently({ audience });
+      HTTP.post("dataset/uploadfile", JSON.stringify(file), {
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Origin": `${redirectURL}`,
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+    },
     uploadFiles() {
       this.uploadProgress = true;
       this.uploadDisabled = true;
@@ -83,6 +95,9 @@ export default {
         this.uploadFile(this.files[i]).then((response) => {
           this.files[i].status =
             response.status == 200 ? "complete" : response.status;
+          response.datasetid = this.datasetid;
+          response.status = (response.status == 200) ? true : false;
+          this.addFile(response);
           if (
             this.files.filter((file) => file.status === "complete").length ==
             this.files.length
@@ -110,7 +125,7 @@ export default {
         }),
       });
       if (response.ok) {
-        const { datasetid, uploadUrl } = await response.json();
+        const { uploadUrl } = await response.json();
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", uploadUrl);
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
@@ -132,7 +147,7 @@ export default {
             url: `${url.protocol}//${url.host}${url.pathname}`,
             name: file.name,
             size: file.size,
-            datasetid: datasetid,
+            type: file.type || "application/octet-stream",
             status: xhr.status,
           };
         } catch {

@@ -8,11 +8,15 @@
       outlined
       :disabled="createDataset"
     ></v-text-field>
-    <v-btn v-if="!createDataset" @click="create_dataset" :disabled="!(this.datasetName.length > 0)">
+    <v-btn
+      v-if="!createDataset"
+      @click="create_dataset"
+      :disabled="!(this.datasetName.length > 0)"
+    >
       Create dataset
       <v-icon right dark> mdi-folder-plus </v-icon>
     </v-btn>
-    <Upload v-if="createDataset" v-bind:datasetid="datasetid"/>
+    <Upload v-if="createDataset" v-bind:datasetid="datasetid" />
   </div>
 </template>
 
@@ -44,23 +48,24 @@ export default {
     },
   },
   methods: {
-    async create_dataset() {
-      const accessToken = await this.$auth.getTokenSilently({ audience });
-      HTTP.post("dataset/new", JSON.stringify({ name: this.datasetName }), {
-        mode: "cors",
-        headers: {
-          "Access-Control-Allow-Origin": `${redirectURL}`,
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      })
+    create_dataset() {
+      this.$auth.getTokenSilently({ audience }).then((accessToken) => 
+        HTTP.post("dataset/new", JSON.stringify({ name: this.datasetName }), {
+          mode: "cors",
+          headers: {
+            "Access-Control-Allow-Origin": `${redirectURL}`,
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        })
         .then((response) => {
           this.datasetid = response.data["datasetid"];
           this.createDataset = true;
         })
         .catch((e) => {
           this.errors.push(e);
-        });
+        })
+      )
     },
   },
 };
