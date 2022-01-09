@@ -59,7 +59,7 @@
 </template>
 
 <script>
-// import { HTTP } from "@/http-common";
+import { HTTP } from "@/http-common";
 import UploadStatus from "../upload-status";
 import {
   redirectURL,
@@ -96,25 +96,23 @@ export default {
   methods: {
     async create_dataset() {
       const accessToken = await this.$auth.getTokenSilently({ audience });
-      var uploadUrl = `${serverUrl}${apiVersion}dataset/new`;
+      // var uploadUrl = `${serverUrl}${apiVersion}dataset/new`;
       // Register new dataset in DB and retrieve dataset id
-      const response = await fetch(uploadUrl, {
-        method: "POST",
+      HTTP.post("dataset/new", JSON.stringify({ name: this.datasetName }), {
         mode: "cors",
         headers: {
           "Access-Control-Allow-Origin": `${redirectURL}`,
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: this.datasetName,
-        }),
-      });
-      if (response.ok) {
-        const { datasetid } = await response.json();
-        this.datasetid = datasetid;
-        this.createDataset = true;
-      }
+      })
+        .then((response) => {
+          this.datasetid = response.data["datasetid"];
+          this.createDataset = true;
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
     uploadFiles() {
       this.uploadProgress = true;
