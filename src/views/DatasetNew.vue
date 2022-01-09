@@ -69,7 +69,7 @@ import {
 } from "../../auth_config.json";
 
 export default {
-  name: "Upload",
+  name: "DatasetNew",
   data: () => ({
     files: [],
     uploadProgress: false,
