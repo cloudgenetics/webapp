@@ -8,7 +8,7 @@
       outlined
       :disabled="createDataset"
     ></v-text-field>
-    <v-btn v-if="!createDataset" @click="create_dataset" :disabled="!dsname">
+    <v-btn v-if="!createDataset" @click="create_dataset" :disabled="!(this.datasetName.length > 0)">
       Create dataset
       <v-icon right dark> mdi-folder-plus </v-icon>
     </v-btn>
@@ -78,7 +78,6 @@ export default {
     progress: 0,
     datasetid: null,
     datasetName: "",
-    dsname: false,
     createDataset: false,
   }),
   watch: {
@@ -88,9 +87,6 @@ export default {
         file["status"] = "pending";
       });
       this.uploadDisabled = this.files.length === 0 ? true : false;
-    },
-    datasetName: function () {
-      if (this.datasetName.length > 0) this.dsname = true;
     },
   },
   methods: {
