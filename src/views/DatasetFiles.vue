@@ -10,7 +10,7 @@
                 {{ file.name }}
               </v-list-item-title>
               <v-list-item-subtitle
-                >size: {{ file.size / 1000 }} MB</v-list-item-subtitle
+                >size: {{ file.size / 1000 }} kb</v-list-item-subtitle
               >
               <v-list-item-subtitle
                 >created:
