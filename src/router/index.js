@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 
 import Api from '../views/Api.vue'
 import Account from '../views/Account.vue'
-import Dataset from '../views/Dataset.vue'
+import Datasets from '../views/Datasets.vue'
 import DatasetNew from '../views/DatasetNew.vue'
+import DatasetFiles from '../views/DatasetFiles.vue'
 import Home from '../views/Home.vue'
 
 import { authGuard } from "../auth/authGuard"
@@ -30,9 +31,15 @@ const routes = [
     beforeEnter: authGuard
   },
   {
-    path: '/dataset',
-    name: 'Dataset',
-    component: Dataset,
+    path: '/datasets',
+    name: 'Datasets',
+    component: Datasets,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/datasets/:uuid',
+    name: 'DatasetFiles',
+    component: DatasetFiles,
     beforeEnter: authGuard
   },
   {

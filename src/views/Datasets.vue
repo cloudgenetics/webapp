@@ -11,7 +11,7 @@
 <script>
 import ListDatasets from './ListDatasets.vue'
 export default {
-  name: "Dataset",
+  name: "Datasets",
   components: {
     ListDatasets
   },

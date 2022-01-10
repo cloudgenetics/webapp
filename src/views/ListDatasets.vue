@@ -17,7 +17,7 @@
           </v-list-item-avatar>
         </v-list-item>
         <v-card-actions>
-          <v-btn outlined rounded text> Open </v-btn>
+          <v-btn outlined rounded text :to="/datasets/ + data.uuid"> View </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
