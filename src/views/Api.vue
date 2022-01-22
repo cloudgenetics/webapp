@@ -26,12 +26,12 @@
 
 <script>
 import { HTTP } from "@/http-common";
-import { redirectURL } from '../../auth_config.json'
+import { redirectURL } from "../../auth_config.json";
 export default {
   name: "Api",
   data() {
     return {
-      apiMessage: null
+      apiMessage: null,
     };
   },
   methods: {
@@ -39,16 +39,16 @@ export default {
       const accessToken = await this.$auth.getTokenSilently();
       try {
         HTTP.get("version", {
-          mode: 'cors',
+          mode: "cors",
           headers: {
-            'Access-Control-Allow-Origin': `${redirectURL}`,
-            Authorization: `Bearer ${accessToken}`
-          }
+            "Access-Control-Allow-Origin": `${redirectURL}`,
+            Authorization: `Bearer ${accessToken}`,
+          },
         })
-          .then(response => {
+          .then((response) => {
             this.apiMessage = response.data;
           })
-          .catch(e => {
+          .catch((e) => {
             this.errors.push(e);
           });
       } catch (e) {
@@ -59,23 +59,23 @@ export default {
       const accessToken = await this.$auth.getTokenSilently();
       try {
         HTTP.get("protected/version", {
-          mode: 'cors',
+          mode: "cors",
           headers: {
-            'Access-Control-Allow-Origin': `${redirectURL}`,
-            Authorization: `Bearer ${accessToken}`
-          }
+            "Access-Control-Allow-Origin": `${redirectURL}`,
+            Authorization: `Bearer ${accessToken}`,
+          },
         })
-          .then(response => {
+          .then((response) => {
             this.apiMessage = response.data;
           })
-          .catch(e => {
+          .catch((e) => {
             this.errors.push(e);
           });
       } catch (e) {
         console.log(e);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

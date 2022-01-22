@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-      async registerUser() {
+    async registerUser() {
       const accessToken = await this.$auth.getTokenSilently();
       try {
         HTTP.post("user/register", JSON.stringify(this.user), {
