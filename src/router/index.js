@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Api from '../views/Api.vue'
+
 import Account from '../views/Account.vue'
+import AnalysisSingleCell from '../views/AnalysisSingleCell.vue'
 import Datasets from '../views/Datasets.vue'
 import DatasetBasespace from '../views/DatasetBasespace.vue'
 import DatasetFiles from '../views/DatasetFiles.vue'
@@ -29,6 +31,12 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: Account,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/analysis/singlecell',
+    name: 'AnalysisSingleCell',
+    component: AnalysisSingleCell,
     beforeEnter: authGuard
   },
   {

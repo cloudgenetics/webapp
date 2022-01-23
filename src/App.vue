@@ -52,18 +52,19 @@ export default {
   data: () => ({
     env: {
       title: process.env.VUE_APP_TITLE,
-      url: process.env.VUE_APP_URL
+      url: process.env.VUE_APP_URL,
     },
     drawer: null,
     links: [
       { icon: "mdi-database", text: "Datasets", route: "/datasets" },
-      { icon: "mdi-account", text: "Account", route: "/account" }
-    ]
+      { icon: "mdi-microscope", text: "Analysis", route: "/analysis/singlecell" },
+      { icon: "mdi-account", text: "Account", route: "/account" },
+    ],
   }),
   components: {
     AuthenticationButton,
-    Footer
+    Footer,
   },
-  methods: {}
+  methods: {},
 };
 </script>

@@ -6,5 +6,7 @@
   "#serverUrl": "http://localhost:5000/",
   "redirectURL": "https://dev-app.csgcompute.com",
   "serverUrl": "https://dev-api.csgcompute.com/",
+  "s3data": "s3://csg-dev-data/",
+  "s3ref": "s3://csg-reference/",
   "apiVersion": "api/v1/"
 }
