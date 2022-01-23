@@ -5,14 +5,14 @@
         <v-icon class="grey lighten-1" dark> mdi-folder </v-icon>
       </v-list-item-avatar>
 
-      <v-list-item-content :to="/datasets/ + data.uuid">
+      <v-list-item-content>
         <v-list-item-title v-text="data.name"></v-list-item-title>
 
         <v-list-item-subtitle v-text="Date(data.updated_at).substr(0, 24)"></v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-action>
-        <v-btn icon :to="/datasets/ + data.uuid">
+        <v-btn icon>
           <v-icon color="grey lighten-1">mdi-information</v-icon>
         </v-btn>
       </v-list-item-action>
