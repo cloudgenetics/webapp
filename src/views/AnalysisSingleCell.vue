@@ -23,6 +23,7 @@
     >
       <v-radio label="Human" value="Hsap_GRCh38_ensembl_release-103"></v-radio>
       <v-radio label="Mouse" value="Mmus_GRCm39_ensembl_release-103"></v-radio>
+      <v-radio label="Mouse/human (mixed)" value="Hsap_Mmus"></v-radio>
     </v-radio-group>
     <v-text-field
       v-model="job.containerCommand"
@@ -83,7 +84,7 @@ export default {
         "--rd",
         "false",
         "--genome_path",
-        s3ref + this.referenceSpecies,
+        s3ref + this.referenceSpecies  + '/STAR_index',
         "--gtf_path",
         s3ref + this.referenceSpecies,
         "-profile",
@@ -101,7 +102,7 @@ export default {
         "--rd",
         "false",
         "--genome_path",
-        s3ref + this.referenceSpecies,
+        s3ref + this.referenceSpecies + '/STAR_index',
         "--gtf_path",
         s3ref + this.referenceSpecies,
         "-profile",
