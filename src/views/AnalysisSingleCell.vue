@@ -21,9 +21,17 @@
       row
       required
     >
-      <v-radio label="rat" value="Rat"></v-radio>
+      <v-radio label="Human" value="Hsap_GRCh38_ensembl_release-103"></v-radio>
+      <v-radio label="Mouse" value="Mmus_GRCm39_ensembl_release-103"></v-radio>
     </v-radio-group>
-    <v-btn class="ma-2" :disabled="jobSubmitted" @click="submitJob"> Submit job </v-btn>
+    <v-text-field
+      v-model="job.containerCommand"
+      :rules="containerRules"
+      label="job command"
+    ></v-text-field>
+    <v-btn class="ma-2" :disabled="jobSubmitted" @click="submitJob">
+      Submit job
+    </v-btn>
     <v-alert v-if="jobSubmitted" dense text type="info">
       Your job has been submitted to run on the cloud platform.
     </v-alert>
@@ -43,6 +51,11 @@ export default {
         (v) =>
           /[a-zA-Z0-9\\-\\_]$/.test(v) || "No spaces or special characters",
       ],
+      containerRules: [
+        (v) => !!v || "Container name is required",
+        (v) =>
+          /^\S*$/.test(v) || "No spaces in container command",
+      ],
       datasets: [],
       datasetid: null,
       referenceSpecies: null,
@@ -61,21 +74,39 @@ export default {
   watch: {
     datasetid: function () {
       this.job.containerCommand = [
-          "--test",
-          "true",
-          "--test_path",
-          s3data + this.datasetid,
-          "--downsample",
-          "false",
-          "--rd",
-          "false",
-          "--genome_path",
-          s3ref + "Hsap_Mmus/STAR_index",
-          "--gtf_path",
-          s3ref + "Hsap_Mmus",
-          "-profile",
-          "tower",
-      ]
+        "--test",
+        "true",
+        "--test_path",
+        s3data + this.datasetid,
+        "--downsample",
+        "false",
+        "--rd",
+        "false",
+        "--genome_path",
+        s3ref + this.referenceSpecies,
+        "--gtf_path",
+        s3ref + this.referenceSpecies,
+        "-profile",
+        "tower",
+      ];
+    },
+    referenceSpecies: function () {
+      this.job.containerCommand = [
+        "--test",
+        "true",
+        "--test_path",
+        s3data + this.datasetid,
+        "--downsample",
+        "false",
+        "--rd",
+        "false",
+        "--genome_path",
+        s3ref + this.referenceSpecies,
+        "--gtf_path",
+        s3ref + this.referenceSpecies,
+        "-profile",
+        "tower",
+      ];
     },
   },
   methods: {
@@ -93,6 +124,11 @@ export default {
     },
     async submitJob() {
       const accessToken = await this.$auth.getTokenSilently();
+      if (
+        typeof this.job.containerCommand === "string" ||
+        this.job.containerCommand instanceof String
+      )
+        this.job.containerCommand = this.job.containerCommand.split(",");
       try {
         HTTP.post("job/submit", JSON.stringify(this.job), {
           mode: "cors",
@@ -102,8 +138,8 @@ export default {
           },
         })
           .then((response) => {
-            console.log(response)
-            this.jobSubmitted = true
+            console.log(response);
+            this.jobSubmitted = true;
           })
           .catch((e) => {
             console.log(e);
