@@ -3,7 +3,7 @@
   "clientId": "30wvMJ3q1F1BvmmBCHyUb6as18LLsE52",
   "audience": "https://api.cloudgenetics.com",
   "#redirectURL": "http://localhost:8080",
-  "#serverUrl": "http://localhost:5000/",
+  "#serverUrl": "http://localhost:4000/",
   "redirectURL": "https://dev-app.csgcompute.com",
   "serverUrl": "https://dev-api.csgcompute.com/",
   "s3data": "s3://csg-dev-data/",

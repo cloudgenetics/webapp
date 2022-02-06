@@ -5,6 +5,7 @@ import Api from '../views/Api.vue'
 
 import Account from '../views/Account.vue'
 import Analyses from '../views/Analyses.vue'
+import AnalysisInfo from '../views/AnalysisInfo.vue'
 import AnalysisSingleCell from '../views/AnalysisSingleCell.vue'
 import Datasets from '../views/Datasets.vue'
 import DatasetBasespace from '../views/DatasetBasespace.vue'
@@ -38,6 +39,12 @@ const routes = [
     path: '/analyses',
     name: 'Analyses',
     component: Analyses,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/analyses/:uuid',
+    name: 'AnalysisInfo',
+    component: AnalysisInfo,
     beforeEnter: authGuard
   },
   {
