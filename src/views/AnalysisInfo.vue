@@ -25,7 +25,6 @@ export default {
   methods: {
     async getAnalysisInfo() {
       const accessToken = await this.$auth.getTokenSilently({ audience });
-      console.log("Requesting: " + this.$route.params.uuid )
       HTTP.get("jobs/" + this.$route.params.uuid, {
         mode: "cors",
         headers: {
