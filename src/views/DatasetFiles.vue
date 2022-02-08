@@ -11,6 +11,7 @@
           <v-list-item-title v-text="file.name"></v-list-item-title>
 
           <v-list-item-subtitle v-text="'size: ' + parseFloat(file.size / 1048576).toFixed(2) + ' mb'"></v-list-item-subtitle>
+          <v-list-item-subtitle v-text="new Date(file.created_at)"></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-row>

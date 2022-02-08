@@ -8,7 +8,7 @@
       <v-list-item-content>
         <v-list-item-title v-text="data.name"></v-list-item-title>
 
-        <v-list-item-subtitle v-text="Date(data.updated_at).substr(0, 24)"></v-list-item-subtitle>
+        <v-list-item-subtitle v-text="new Date(data.updated_at)"></v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-action>
