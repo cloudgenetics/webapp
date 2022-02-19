@@ -12,6 +12,7 @@ import DatasetBasespace from '../views/DatasetBasespace.vue'
 import DatasetFiles from '../views/DatasetFiles.vue'
 import DatasetNew from '../views/DatasetNew.vue'
 import Home from '../views/Home.vue'
+import Results from '../views/Results.vue'
 
 import { authGuard } from "../auth/authGuard"
 
@@ -75,6 +76,12 @@ const routes = [
     path: '/dataset/basespace',
     name: 'DatasetBasespace',
     component: DatasetBasespace,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/results/:uuid',
+    name: 'Results',
+    component: Results,
     beforeEnter: authGuard
   },
 ]

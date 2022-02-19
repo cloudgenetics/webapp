@@ -58,6 +58,7 @@ export default {
     links: [
       { icon: "mdi-database", text: "Datasets", route: "/datasets" },
       { icon: "mdi-microscope", text: "Analyses", route: "/analyses" },
+      { icon: "mdi-file", text: "Results", route: "/results" },
       { icon: "mdi-account", text: "Account", route: "/account" },
     ],
   }),

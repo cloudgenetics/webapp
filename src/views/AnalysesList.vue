@@ -7,7 +7,7 @@
 
       <v-list-item-content>
         <v-list-item-title v-text="analysis.jobName"></v-list-item-title>
-        <v-list-item-subtitle v-text="analysis.created_at"></v-list-item-subtitle>
+        <v-list-item-subtitle v-text="new Date(analysis.created_at)"></v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-action>

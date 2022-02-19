@@ -1,11 +1,19 @@
 <template>
   <div class="col-md-12 mb-3">
     <h2>{{ analysis.jobName }}</h2>
-    Command: <code class="col-12 text-light bg-dark p-4">
-      {{ JSON.stringify(analysis.Command, null, "\t") }}
-    </code><br/>
-
-    Results: {{analysis.resultsDir}}
+    <p>
+      Job script: <br/>
+      <code class="col-12 text-light bg-dark p-4">
+        {{ JSON.stringify(analysis.Command, null, "\t") }}
+      </code>
+      <br/>
+    </p>
+    <v-btn :to="'/results/' + analysis.resultsDir">
+      <v-icon dark>
+        mdi-card-search
+      </v-icon>
+      view results
+    </v-btn>
   </div>
 </template>
 
