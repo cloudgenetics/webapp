@@ -74,39 +74,29 @@ export default {
   },
   watch: {
     datasetid: function () {
-      this.job.containerCommand = [
-        "--fastq",
-        "true",
-        "--fastq_path",
-        s3data + this.datasetid,
-        "--downsample",
-        "false",
-        "--rd",
-        "true",
-        "--species_path",
-        s3ref + this.referenceSpecies,
-        "-profile",
-        "tower",
-      ];
+      this.containerCommand()
     },
     referenceSpecies: function () {
-      this.job.containerCommand = [
-        "--fastq",
-        "true",
-        "--fastq_path",
-        s3data + this.datasetid,
-        "--downsample",
-        "false",
-        "--rd",
-        "true",
-        "--species_path",
-        s3ref + this.referenceSpecies,
-        "-profile",
-        "tower",
-      ];
+      this.containerCommand()
     },
   },
   methods: {
+    containerCommand() {
+      this.job.containerCommand = [
+        "--fastq",
+        "true",
+        "--fastq_path",
+        s3data + this.datasetid,
+        "--downsample",
+        "false",
+        "--rd",
+        "true",
+        "--species_path",
+        s3ref + this.referenceSpecies,
+        "-profile",
+        "tower",
+      ];
+    },
     async getDatasets() {
       const accessToken = await this.$auth.getTokenSilently({ audience });
       HTTP.get("datasets", {
