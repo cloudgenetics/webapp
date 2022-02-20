@@ -13,6 +13,7 @@ import DatasetFiles from '../views/DatasetFiles.vue'
 import DatasetNew from '../views/DatasetNew.vue'
 import Home from '../views/Home.vue'
 import Results from '../views/Results.vue'
+import ResultsView from '../views/ResultsView.vue'
 
 import { authGuard } from "../auth/authGuard"
 
@@ -79,9 +80,15 @@ const routes = [
     beforeEnter: authGuard
   },
   {
-    path: '/results/:uuid',
+    path: '/results',
     name: 'Results',
     component: Results,
+    beforeEnter: authGuard
+  },  
+  {
+    path: '/results/:uuid',
+    name: 'ResultsView',
+    component: ResultsView,
     beforeEnter: authGuard
   },
 ]
