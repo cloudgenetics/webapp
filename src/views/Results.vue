@@ -2,21 +2,39 @@
   <div class="col-md-12 mb-3">
     <h2>Analysis results</h2>
     <br/>
+    <h4>Summary plots</h4>
     <v-container fluid>
       <v-layout row wrap>
         <v-flex v-for="(plot, i) in plots" :key="i" sm3>
           <v-card flat tile>
             <v-btn :href="plot" target="_blank" rel="noopener">
             <v-icon dark>
-              mdi-file-image
+              mdi-chart-line
             </v-icon>
-            view plot {{i}}
+            view plot {{i+1}}
             </v-btn>
           </v-card>
         </v-flex>
       </v-layout>
     </v-container>
     <br/>
+    <h4>Job summary</h4>
+    <v-container fluid>
+      <v-layout row wrap>
+        <v-flex v-for="(report, i) in reports" :key="i" sm3>
+          <v-card flat tile>
+            <v-btn :href="report" target="_blank" rel="noopener">
+            <v-icon dark>
+              mdi-chart-line
+            </v-icon>
+            view report {{i+1}}
+            </v-btn>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <br/>
+    <h4>Output files</h4>
     <v-row no-gutters>
       <v-list-item v-for="(file, i) in files" :key="i">
         <v-list-item-avatar>
@@ -41,23 +59,27 @@ export default {
       uuid: '',
       files: [],
       plots: [],
-      imgsrc: null,
-      images: [],
+      reports: [],
     };
-  },
-  props: {
-    rawHtml: String,
   },
   created() {
     this.getFiles()
     this.getPlots()
+    this.getReports()
     this.uuid = this.$route.params.uuid
   },
   methods: {
-    encode(data) {
-      let buf = Buffer.from(data);
-      let base64 = buf.toString('base64');
-      return base64
+    async getReports() {
+      const accessToken = await this.$auth.getTokenSilently({ audience });
+      HTTP.get("results/reports/" + this.$route.params.uuid, {
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Origin": `${redirectURL}`,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then((resp) => {
+        this.reports = resp.data;
+      });
     },
     async getPlots() {
       const accessToken = await this.$auth.getTokenSilently({ audience });
