@@ -1,18 +1,13 @@
 <template>
   <div class="col-md-12 mb-3">
     <h2>Analysis results</h2>
-    <br/>
-    <h4>Summary plots</h4>
+    
+    <h3>Summary plots</h3>
     <v-container fluid>
       <v-layout row wrap>
         <v-flex v-for="(plot, i) in plots" :key="i" sm3>
-          <v-card flat tile>
-            <v-btn :href="plot" target="_blank" rel="noopener">
-            <v-icon dark>
-              mdi-chart-line
-            </v-icon>
-            view plot {{i+1}}
-            </v-btn>
+          <v-card flat tile :href="plot" target="_blank" rel="noopener">
+            <v-img max-width="250" :src="plot"></v-img>
           </v-card>
         </v-flex>
       </v-layout>
@@ -57,6 +52,7 @@ export default {
   data() {
     return {
       uuid: '',
+      imagesrc: '',
       files: [],
       plots: [],
       reports: [],
